@@ -30,7 +30,7 @@ Route::any('/sign1','Api\TestController@sign1');
 Route::get('/test/get/sign1','Sign\IndexController@sign1');
 Route::post('/test/post/sign2','Sign\IndexController@sign2');
 Route::get('/test/sign2','Api\TestController@sign2');
-//鉴权//
+//鉴权
 Route::get('/brush','Api\TestController@brush')->middleware('filter','check.token');
 
 
