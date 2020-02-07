@@ -180,11 +180,56 @@ function brush(){
 
         $response=file_get_contents($url);
         echo $response;
-
     }
 
+    public function md5test()
+    {
+        $key = "yangtao";          
 
+        $order_info = [
+            "order_id"          => 'LN_' . mt_rand(111111,999999),
+            "order_amount"      => mt_rand(111,999),
+            "uid"               => 12345,
+            "add_time"          => time(),
+        ];
 
+        $data_json = json_encode($order_info);
+
+        //计算签名
+        $sign = md5($data_json.$key);
+
+        // post 表单（form-data）发送数据
+        $client = new Client();
+        $url = 'http://passport.1905.com/test/postqm2';
+        $response = $client->request("POST",$url,[
+            "form_params"   => [
+                "data"  => $data_json,
+                "sign"  => $sign
+            ]
+        ]);
+
+        //接收服务器端响应的数据
+        $response_data = $response->getBody();
+        echo $response_data;
+    }   
+
+    //私钥签名
+    function sign3(){
+        $data="Hello world";//待签名数据
+
+        //计算签名
+        $path=storage_path('keys/privkey3');
+        $pkeyid=openssl_pkey_get_private("file://".$path);
+
+        openssl_sign($data,$signature,$pkeyid);
+        openssl_free_key($pkeyid);
+        //var_dump($signature);
+
+        //base64编码
+        $sign_str=base64_encode($signature);
+        echo 'base64_encode 后的签名:'.$sign_str;
+
+    }
 
 
 

@@ -30,10 +30,13 @@ Route::any('/sign1','Api\TestController@sign1');
 Route::get('/test/get/sign1','Sign\IndexController@sign1');
 Route::post('/test/post/sign2','Sign\IndexController@sign2');
 Route::get('/test/sign2','Api\TestController@sign2');
+Route::get('/test/sign3','Api\TestController@sign3');//私钥签名
+
 //鉴权
 Route::get('/brush','Api\TestController@brush')->middleware('filter','check.token');
 
 Route::get('/md5','Api\TestController@md5');
+Route::get('/md5test','Api\TestController@md5test');
 
 
 //自动上线
