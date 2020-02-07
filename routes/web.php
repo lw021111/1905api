@@ -33,6 +33,8 @@ Route::get('/test/sign2','Api\TestController@sign2');
 //鉴权
 Route::get('/brush','Api\TestController@brush')->middleware('filter','check.token');
 
+Route::get('/md5','Api\TestController@md5');
+
 
 //自动上线
 Route::post('/getpull','Api\TestController@gitpull');
