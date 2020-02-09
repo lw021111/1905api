@@ -200,7 +200,7 @@ function brush(){
 
         // post 表单（form-data）发送数据
         $client = new Client();
-        $url = 'http://passport.1905.com/test/postqm2';
+        $url = 'http://admin.com/test/md5test2';
         $response = $client->request("POST",$url,[
             "form_params"   => [
                 "data"  => $data_json,
@@ -223,14 +223,55 @@ function brush(){
 
         openssl_sign($data,$signature,$pkeyid);
         openssl_free_key($pkeyid);
-        //var_dump($signature);
 
         //base64编码
         $sign_str=base64_encode($signature);
-        echo 'base64_encode 后的签名:'.$sign_str;
-
+        echo 'base64_encode 后的签名:'.$sign_str;echo "</br>";
+        $url="http://admin.com/test/sign3?".'data='.$data.'&sign_str='.urlencode($sign_str);
+        echo $url;
     }
 
+    // function encrypt(){
+    //     $data="啦啦啦";
+    //     $path=storage_path('keys/privkey3');
+    //     $prive_key=openssl_pkey_get_private("file://".$path);
+    //     openssl_private_encrypt($data, $encrypt_data, $prive_key,OPENSSL_PKCS1_PADDING);
+    //     var_dump($encrypt_data);echo "<hr>";
+
+    //     $base64_str=base64_encode($encrypt_data);
+    //     echo '</br>';
+    //     echo $base64_str;
+
+    // }
+
+    function encrypt(){
+        $data=[
+            'name' => 'liuwei',
+            'email' => '2841732297@qq.com',
+            'age' => 17
+        ];
+        echo '<pre>';print_r($data);echo '</pre>';
+        $json_str=json_encode($data);
+        echo "原文: ".$json_str;echo '</br>';
+        //加密
+        $method ='AES-256-CBC';
+        $key='1905api';
+        $iv='WUSD8796IDjhkchd';
+        $enc_data=openssl_encrypt($json_str, $method, $key,OPENSSL_RAW_DATA,$iv);
+        echo "加密后密文: ".$enc_data;echo '</br>';
+        //base64encode 密文
+        $base64_str = base64_encode($enc_data);
+        echo "base64_str: ".$base64_str;echo '</br>';
+
+        //url_encode
+        $url_encode_str = urlencode($base64_str);
+        echo '$url_encode_str : '.$url_encode_str;echo '</br>';
+        //发送加密数据
+        $url="http://admin.com/decrypt?data=".$url_encode_str;
+        echo $url;echo '</br>';
+        $response=file_get_contents($url);
+        echo $response;
+    }
 
 
 //获取用户列表

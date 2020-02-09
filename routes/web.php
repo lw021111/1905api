@@ -37,6 +37,8 @@ Route::get('/brush','Api\TestController@brush')->middleware('filter','check.toke
 
 Route::get('/md5','Api\TestController@md5');
 Route::get('/md5test','Api\TestController@md5test');
+Route::get('/encrypt','Api\TestController@encrypt');
+
 
 
 //自动上线
